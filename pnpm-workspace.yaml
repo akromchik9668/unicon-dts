@@ -1,0 +1,9 @@
+storeDir: C:/Users/ASUS/Documents/Codex/2026-10-12/new-chat-2/work/dts-scheme/.sites-runtime/pnpm-store
+nodeLinker: hoisted
+packageImportMethod: copy
+symlink: false
+
+enableGlobalVirtualStore: false
+
+allowBuilds:
+  esbuild: set this to true or false
