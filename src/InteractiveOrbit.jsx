@@ -1,0 +1,16 @@
+/** @jsx h */
+import React,{useState,useEffect} from 'react';
+import {h} from './i18n';
+export default function InteractiveOrbit({Icon,start,explore}){
+ const [topic,T]=useState(null);
+ const topics=[{id:'signature',label:'ЭЛЕКТРОННАЯ ПОДПИСЬ',title:'Электронная подпись',icon:'certificate',position:'sat1',description:'Подпись связывает подписанта с электронным документом. ДТС проверяет её корректность и целостность подписанного содержимого.',tags:['Подпись','Целостность','Сертификат']},{id:'roaming',label:'МЕЖДУНАРОДНЫЙ РОУМИНГ',title:'Международный роуминг',icon:'globe',position:'sat2',description:'Роуминг помогает передавать электронные документы между операторами разных систем. Доставка и проверка доверия дополняют друг друга.',tags:['Оператор отправителя','Канал обмена','Оператор получателя']},{id:'dts',label:'ИНФРАСТРУКТУРА ДОВЕРИЯ',title:'Инфраструктура доверия',icon:'network',position:'sat3',description:'Сертификаты, службы проверки и Национальная ДТС образуют среду доверия для взаимодействия информационных систем Узбекистана и других стран.',tags:['Национальная ДТС','Цепочка доверия','Страны и этапы']}];
+ const active=topics.find(x=>x.id===topic);
+ useEffect(()=>{const close=e=>{if(e.key==='Escape')T(null)};window.addEventListener('keydown',close);return()=>window.removeEventListener('keydown',close)},[]);
+ return <div className={'orbital interactive-orbital '+(active?'topic-open':'')}>
+ <div className="orbit o1"/><div className="orbit o2"/><div className="orbit o3"/><div className="orbit-line"/>
+ <svg className="orbit-signals" viewBox="0 0 560 560" aria-hidden="true">{topics.map((x,i)=>{const d=['M280 280 Q210 110 142 127','M280 280 Q425 205 478 262','M280 280 Q285 430 197 479'][i];return <g key={x.id} className={topic===x.id?'orbit-signal chosen-signal':'orbit-signal'}><path d={d}/>{topic===x.id&&<circle r="4"><animateMotion path={d} dur="2s" repeatCount="indefinite"/></circle>}</g>})}</svg>
+ <button className="hero-dts" onClick={start}><Icon name="shield" size={56}/><strong>ДТС</strong><span>Доверенная<br/>третья сторона</span><b><Icon name="arrow" size={20}/></b></button>
+ {topics.map(x=><button key={x.id} className={'satellite orbit-topic '+x.position+(topic===x.id?' topic-selected':'')} onClick={()=>T(topic===x.id?null:x.id)} aria-expanded={topic===x.id} aria-controls="orbit-topic-info" aria-label={x.title}><Icon name={x.icon}/><span className="orbit-topic-label">{x.label}<small>{topic===x.id?'Закрыть':'Подробнее + '}</small></span><i className="topic-pulse"/></button>)}
+ {active&&<section className="orbital-info" id="orbit-topic-info" key={active.id} aria-live="polite"><div className="orbital-info-heading"><span><Icon name={active.icon} size={20}/>{active.title}</span><button onClick={()=>T(null)} aria-label="Закрыть"><Icon name="close" size={17}/></button></div><p>{active.description}</p><div className="orbit-tags">{active.tags.map(t=><span key={t}>{t}</span>)}</div><button className="orbit-explore" onClick={()=>explore(active.id)}>Посмотреть в схеме <Icon name="arrow" size={17}/></button><div className="orbit-topic-tabs" aria-label="Темы">{topics.map(x=><button key={x.id} aria-label={x.title} aria-pressed={x.id===topic} onClick={()=>T(x.id)}><Icon name={x.icon} size={16}/></button>)}</div></section>}
+ </div>
+}
