@@ -6,7 +6,9 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host 127.0.0.1"
+    "dev": "vite --host 127.0.0.1",
+    "test:auth": "node --test server/access.test.js",
+    "setup:access": "node scripts/create-access.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",

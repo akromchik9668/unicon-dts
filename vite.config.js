@@ -1,3 +1,4 @@
 import {defineConfig} from 'vite';
-export default defineConfig({esbuild:{jsx:'transform',jsxFactory:'h',jsxFragment:'React.Fragment'}});
+import {accessPlugin} from './server/vite-access.js';
+export default defineConfig({plugins:[accessPlugin()],esbuild:{jsx:'transform',jsxFactory:'h',jsxFragment:'React.Fragment'}});
 
